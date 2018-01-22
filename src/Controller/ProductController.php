@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 class ProductController extends Controller
 {
     /**
-     * @Route("/product", name="product")
+     * @Route("/product/new", name="product")
      */
-    public function index()
+    public function newAction()
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -27,5 +27,23 @@ class ProductController extends Controller
         $em->flush();
 
         return new Response('Saved new product with id '.$product->getId());
+    }
+
+    /**
+     * @Route("/product/{id}", name="product_show")
+     */
+    public function showAction($id)
+    {
+        $product = $this->getDoctrine()
+            ->getRepository(Product::class)
+            ->find($id);
+
+        if (!$product) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$id
+            );
+        }
+
+        return $this->render('product/show.html.twig', ['product' => $product]);
     }
 }

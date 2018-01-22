@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Product #{{ product.id }}</h1>
+    <ul>
+        <li>Name: {{ product.name }}</li>
+        <li>Price: {{ product.price }}</li>
+        <li>Description: {{ product.description }}</li>
+    </ul>
+{% endblock %}
