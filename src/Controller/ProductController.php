@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -13,7 +12,19 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // replace this line with your own code!
-        return $this->render('@Maker/demoPage.html.twig', [ 'path' => str_replace($this->getParameter('kernel.project_dir').'/', '', __FILE__) ]);
+        $em = $this->getDoctrine()->getManager();
+
+        $product = new Product();
+        $product->setName('Keyboard');
+        $product->setPrice(19.99);
+        $product->setDescription('Ergonomic and stylish!');
+
+        // tell Doctrine you want to (eventually) save the Product (no queries yet)
+        $em->persist($product);
+
+        // actually executes the queries (i.e. the INSERT query)
+        $em->flush();
+
+        return new Response('Saved new product with id '.$product->getId());
     }
 }
