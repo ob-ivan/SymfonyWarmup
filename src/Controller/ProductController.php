@@ -26,22 +26,25 @@ class ProductController extends Controller
         // actually executes the queries (i.e. the INSERT query)
         $em->flush();
 
-        return new Response('Saved new product with id '.$product->getId());
+        return new Response('Saved new product with id ' . $product->getId());
     }
 
     /**
-     * @Route("/product/{id}", name="product_show")
+     * @Route("/product/{idOrName}", name="product_show")
      */
-    public function showAction($id)
+    public function showAction($idOrName)
     {
-        $product = $this->getDoctrine()
-            ->getRepository(Product::class)
-            ->find($id);
+        $repository = $this->getDoctrine()
+            ->getRepository(Product::class);
+        $product = $repository->find($idOrName);
 
         if (!$product) {
-            throw $this->createNotFoundException(
-                'No product found for id '.$id
-            );
+            $product = $repository->findOneBy(['name' => $idOrName]);
+            if (!$product) {
+                throw $this->createNotFoundException(
+                    'No product found for id or name ' . $idOrName
+                );
+            }
         }
 
         return $this->render('product/show.html.twig', ['product' => $product]);
