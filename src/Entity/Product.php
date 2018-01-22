@@ -25,4 +25,9 @@ class Product
      * @ORM\Column(type="decimal", scale=2, nullable=true)
      */
     private $price;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
 }
