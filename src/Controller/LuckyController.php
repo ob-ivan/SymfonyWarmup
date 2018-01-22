@@ -8,12 +8,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class LuckyController extends Controller
 {
+    /**
+     * @Route("/lucky/databases")
+     */
     public function databases(Connection $conn)
     {
         $stmt = $conn->query("SHOW DATABASES");
         $databases = [];
         while ($row = $stmt->fetch()) {
-            $databases = print_r($row, true);
+            $databases[] = print_r($row, true);
         }
         return $this->render('lucky/databases.html.twig', [
             'databases' => $databases,
