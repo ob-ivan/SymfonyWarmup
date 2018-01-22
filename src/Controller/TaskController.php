@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\Task;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -10,6 +11,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class TaskController extends Controller
 {
+    /**
+     * @Route("/task/new", name="task_new")
+     */
     public function newAction(Request $request)
     {
         // create a task and give it some dummy data for this example
