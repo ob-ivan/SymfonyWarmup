@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>List of databases</h1>
+    <ul>
+        {% for database in databases %}
+            <li>{{ database }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
