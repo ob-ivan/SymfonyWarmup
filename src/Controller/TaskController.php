@@ -18,14 +18,24 @@ class TaskController extends Controller
     {
         // create a task and give it some dummy data for this example
         $task = new Task();
-        $task->setTask('Write a blog post');
-        $task->setDueDate(new \DateTime('tomorrow'));
 
         $form = $this->createFormBuilder($task)
             ->add('task', TextType::class)
             ->add('dueDate', DateType::class)
             ->add('save', SubmitType::class, array('label' => 'Create Task'))
             ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $task = $form->getData();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($task);
+            $em->flush();
+
+            return $this->redirectToRoute('task_success');
+        }
 
         return $this->render('task/new.html.twig', array(
             'form' => $form->createView(),
